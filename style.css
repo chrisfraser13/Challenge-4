@@ -46,3 +46,31 @@ button {
     width: 150px;
     margin-top: 3px;
 }
+button:hover {
+    box-shadow: 4px 3px 6px green;
+}
+#startpage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#timer{
+    font-family: sans-serif;
+    background-color: whitesmoke;
+    color: black;
+    border-radius: 10px;
+    border: 5px double black;
+    font-size: x-large;
+    text-shadow: .5px .5px black;
+    text-align: center;
+}
+#quiz{
+    display: none;
+}
+#result {
+    display: none;
+}
+#gameover {
+    height: 1.5rem;
+    border: groove 2px;
+}
