@@ -174,5 +174,31 @@ function clearScore(){
 
 //sets all variables back to original value and allows for replaying of quiz
 function replayQuiz(){
-    
+    highscoreContainer.style.display = "none";
+    gameoverDiv.style.display = "none";
+    startQuizDiv.style.display = "flex";
+    timeLeft = 76;
+    score = 0;
+    currentQuestionIndex = 0;
 }
+
+//answer checker
+function checkAnswer(answer){
+    correct = quizQuestions[currentQuestionIndex].correctAnswer;
+
+    if (answer === correct && currentQuestionIndex !== finalQuestionIndex){
+        score++;
+        alert("Correct Answer! :)");
+        currentQuestionIndex++;
+        generateQuizQuestion();
+    }else if (answer !== correct && currentQuestionIndex !==finalQuestionsIndex){
+        alert("Sorry :( Wrong Answer!")
+        currentQuestionIndex++;
+        generateQuizQuestion();
+    }else{
+        showScore();
+    }
+}
+
+//Button that starts the quiz!
+startQuizButton.addEventListener("click",startQuiz);
