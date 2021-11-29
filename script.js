@@ -72,3 +72,51 @@ var quizQuestions = [{
         
     
     ];
+// global variables
+var finalQuestionsIndex = quizQuestions.length;
+var currentQuestionIndex = 0;
+var timeLeft = 76;
+var score = 0;
+var correct;
+
+//function that generates quiz questions & answers
+function generateQuizQuestion(){
+    gameoverDiv.style.display = "none";
+    if (currentQuestionIndex === finalQuestionsIndex){
+        return showScore();
+    }
+    var currentQuestion = quizQuestions[currentQuestionIndex];
+    questionsEl.innerHTML = "<p>" + currentQuestion.question + "</p>";
+    buttonA.innerHTML = currentQuestion.choiceA;
+    buttonB.innerHTML = currentQuestion.choiceB;
+    buttonC.innerHTML = currentQuestion.choiceC;
+    buttonD.innerHTML = currentQuestion.choiceD;
+};
+
+//function that starts the quiz, time ranges and hides the start button. Also this will trigger the first quiz question to display on screen.
+function startQuiz(){
+    gameoverDiv.style.display = "none";
+    startQuizDiv.style.display = "none";
+    generateQuizQuestion();
+
+    //Set up of Timer
+    timerInterval = setInterval(function() {
+        timeLeft--;
+        quizTimer.textContent = "Time left: " + timeLeft;
+
+        if(timeLeft === 0) {
+            clearInterval(timerInterval);
+            showScore();
+        }
+      }, 1000);
+    quizBody.style.display = "block";
+}
+
+//This function = end page screen which displays the score receieved after finishing all questions or if the timer expires.
+function showScore() {
+    quizBody.style.display = "none";
+    gameoverDiv.style.display = "flex";
+    clearInterval(timerInterval);
+    highscoreInputName.value = "";
+    finalScoreEl.innerHTML = "You got " + score + " out of " + quizQuestions.length + " correct!";
+}
