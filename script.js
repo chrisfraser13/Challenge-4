@@ -120,3 +120,59 @@ function showScore() {
     highscoreInputName.value = "";
     finalScoreEl.innerHTML = "You got " + score + " out of " + quizQuestions.length + " correct!";
 }
+//high scores saved to local storage
+submitScoreBtn.addEventListener("click", function highscore(){
+    if(highscoreInputName.value === "") {
+        alert("Initials cannot be blank");
+        return false;
+    }else{
+        var savedHighscores = JSON.parse(localStorage.getItem("savedHighscores")) || [];
+        var currentUser = highscoreInputName.value.trim();
+        var currentHighscore = {
+            name : currentUser,
+            score : score
+        };
+        gameoverDiv.style.display = "none";
+        highscoreContainer.style.display = "flex";
+        highscoreDiv.style.display = "block";
+        endGameBtns.style.display = "flex";
+        savedHighscores.push(currentHighscore);
+        localStorage.setItem("savedHighscores", JSON.stringify(savedHighscores));
+        generateHighscores();
+    } 
+});
+//function to clear current list of highoscores and generate a new one.
+function generateHighscores(){
+    highscoreDisplayName.innerHTML = "";
+    highscoreDisplayScore.innerHTML = "";
+    var highscores = JSON.parse(localStorage.getItem("savedHighscores")) || [];
+    for (i=0; i<highscores.length; i++){
+        var newNameSpan = document.createElement("li");
+        var newScoreSpan = document.createElement("li");
+        newNameSpan.textContent = highscores[i].name;
+        newScoreSpan.textContent = highscores[i].score;
+        highscoresDisplayName.appendChild(newNameSpan);
+        highscoreDisplayScore.appendChild(newScoreSpan);
+    }
+}
+//displays highscore page while minimizing the other pages
+function showHighscore(){
+    startQuizDiv.style.display = "none"
+    gameoverDiv.style.display = "none";
+    highscoreContainer.style.display = "flex";
+    highscoreDiv.style.display = "block";
+    endGameBtns.style.display = "flex";
+
+    generateHighscores();
+}
+//this function clears high scores form local storage & clears text from highscore board.
+function clearScore(){
+    window.localStorage.clear();
+    highscoreDisplayName.textContent = "";
+    highscoreDisplayScore.textContent = "";
+}
+
+//sets all variables back to original value and allows for replaying of quiz
+function replayQuiz(){
+    
+}
