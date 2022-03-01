@@ -1,4 +1,5 @@
 // Variables related to HTML elements
+var scoreElement = document.getElementById("score");
 var quizBody = document.getElementById("quiz");
 var resultsEl = document.getElementById("result");
 var finalScoreEl = document.getElementById("finalScore");
@@ -11,64 +12,44 @@ var highscoreContainer = document.getElementById("highscoreContainer");
 var highscoreDiv = document.getElementById("high-scorePage");
 var highscoreInputName = document.getElementById("initials");
 var highscoreDisplayName = document.getElementById("highscore-initials");
-var endGameBtns = document.getElementById("engGameBtns");
+var endGameBtns = document.getElementById("endGameBtns");
 var submitScoreBtn = document.getElementById("submitScore");
 var highscoreDisplayScore = document.getElementById("highscore-score");
-var buttonA = document.getElementById("a");
-var buttonB = document.getElementById("b");
-var buttonC = document.getElementById("c");
-var buttonD = document.getElementById("d");
+// var buttonA = document.getElementById("a");
+// var buttonB = document.getElementById("b");
+// var buttonC = document.getElementById("c");
+// var buttonD = document.getElementById("d");
+var choiceElement = document.getElementById("choices")
 
 // Object for Quiz questions
 var quizQuestions = [{
     question: "What does HTML stand for?",
-    choiceA: "How to make labels",
-    choiceB: "Hypertext Markup Language",
-    choiceC: "Hefty Technological Material Language",
-    choiceD: "Hardware that makes Language",
-    correctAnswer: "b"},
+    choice: ["How to make labels", "Hypertext Markup Language", "Hefty Technological Material Language", "Hardware that makes Language"],
+    correctAnswer: "Hypertext Markup Language"},
   {
     question: "What does DOM stand for?",
-    choiceA: "Document Object Model",
-    choiceB: "Display Object Management",
-    choiceC: "Digital Ordinance Model",
-    choiceD: "Desktop Oriented Mode",
-    correctAnswer: "a"},
-   {
+    choice: ["Document Object Model", "Display Object Management", "Digital Ordinance Model", "Desktop Oriented Mode"],
+    correctAnswer: "Document Object Model"},
+    {
     question: "What does CSS stand for?",
-    choiceA: "Cascading Style Sheets",
-    choiceB: "Collection of Styling Sheets",
-    choiceC: "Console Style Sheet",
-    choiceD: "Cute Style Sheet",
-    correctAnswer: "a"},
+    choice: ["Cascading Style Sheets", "Collection of Styling Sheets", "Console Style Sheet", "Cute Style Sheet"],
+    correctAnswer: "Cascading Style Sheets"},
     {
     question: "When was Javascript invented?",
-    choiceA: "1987",
-    choiceB: "2004",
-    choiceC: "1995",
-    choiceD: "2013",
-    correctAnswer: "c"},
+    choice: ["1987", "2004", "1995", "2013"],
+    correctAnswer: "1995"},
     {
     question: "When is localStorage data cleared?",
-    choiceA: "No expiration time",
-    choiceB: "On page reload",
-    choiceC: "On browser close",
-    choiceD: "On computer restart",
-    correctAnswer: "a"},  
+    choice: ["No expiration time", "On page reload", "On browser close", "On computer restart"],
+    correctAnswer: "No expiration time"},  
     {
     question: "What does WWW stand for?",
-    choiceA: "Web World Withholds",
-    choiceB: "World Wide Web",
-    choiceC: "Wisdom, Withstand, Warrior",
-    choiceD: "Windy Weather Warning",
-    correctAnswer: "b"},
+    choice: ["Web World Withholds", "World Wide Web", "Wisdom, Withstand, Warrior", "Windy Weather Warning"],
+    correctAnswer: "World Wide Web"},
     {
     question: "What HTML attribute references an external JavaScript file?",
-    choiceA: "href",
-    choiceB: "src",
-    choiceC: "class",
-    choiceD: "index",
-    correctAnswer: "b"},
+    choice: ["href", "src", "class", "index"],
+    correctAnswer: "src"},
         
     
     ];
@@ -87,10 +68,17 @@ function generateQuizQuestion(){
     }
     var currentQuestion = quizQuestions[currentQuestionIndex];
     questionsEl.innerHTML = "<p>" + currentQuestion.question + "</p>";
-    buttonA.innerHTML = currentQuestion.choiceA;
-    buttonB.innerHTML = currentQuestion.choiceB;
-    buttonC.innerHTML = currentQuestion.choiceC;
-    buttonD.innerHTML = currentQuestion.choiceD;
+    choiceElement.innerHTML = ""
+    currentQuestion.choice.forEach(function(letter, i){
+        var choiceArr = document.createElement("button")
+        choiceArr.setAttribute("class", "choice")
+        choiceArr.setAttribute("value", letter)
+        choiceArr.textContent = letter
+        choiceArr.onclick = checkAnswer 
+        choiceElement.appendChild(choiceArr)
+        //dynamic button for each. set attribute for each of these so that the value of each choice is read. Then, onclick event comparing value and correct answer-will trigger points add or time subtracted, also allows to jump to next question by increasing current index to 1.
+    })
+    scoreElement.textContent = "score:" + score
 };
 
 //function that starts the quiz, time ranges and hides the start button. Also this will trigger the first quiz question to display on screen.
@@ -149,10 +137,10 @@ function generateHighscores(){
     for (i=0; i<highscores.length; i++){
         var newNameSpan = document.createElement("li");
         var newScoreSpan = document.createElement("li");
-        newNameSpan.textContent = highscores[i].name;
+        newNameSpan.textContent = highscores[i].name + "_________________________________" + highscores[i].score;
         newScoreSpan.textContent = highscores[i].score;
-        highscoresDisplayName.appendChild(newNameSpan);
-        highscoreDisplayScore.appendChild(newScoreSpan);
+        highscoreDisplayName.appendChild(newNameSpan);
+        // highscoreDisplayScore.appendChild(newScoreSpan);
     }
 }
 //displays highscore page while minimizing the other pages
@@ -185,14 +173,14 @@ function replayQuiz(){
 //answer checker
 function checkAnswer(answer){
     correct = quizQuestions[currentQuestionIndex].correctAnswer;
-
-    if (answer === correct && currentQuestionIndex !== finalQuestionIndex){
+    if (this.value === correct && currentQuestionIndex !== finalQuestionsIndex){
         score++;
         alert("Correct Answer! :)");
         currentQuestionIndex++;
         generateQuizQuestion();
-    }else if (answer !== correct && currentQuestionIndex !==finalQuestionsIndex){
+    }else if (this.value !== correct && currentQuestionIndex !==finalQuestionsIndex){
         alert("Sorry :( Wrong Answer!")
+        timeLeft -=15
         currentQuestionIndex++;
         generateQuizQuestion();
     }else{

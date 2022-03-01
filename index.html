@@ -12,16 +12,18 @@
             <h2>This timed quiz is designed to test knowledge</h2>
             <h2>on different concepts of coding and web design</h2>
         <button id="startBtn">Start the Quiz!</button>
-        <button id="startPageHighscore" onclick="showHighschore()">High Scores List</button>
+        <button id="startPageHighscore" onclick="showHighscore()">High Scores List</button>
         </div>
 
         <div id="quiz">
+            <p id="score"> Score: </p>
             <div id="timer">Time left: </div>
                 <div id="questions"><p>Questions Placeholder</p></div>
-                    <button id="a" onclick="checkAnswer('a')">A</button>
+                    <!-- <button id="a" onclick="checkAnswer('a')">A</button>
                     <button id="a" onclick="checkAnswer('b')">B</button>
                     <button id="a" onclick="checkAnswer('c')">C</button>
-                    <button id="a" onclick="checkAnswer('d')">D</button>
+                    <button id="a" onclick="checkAnswer('d')">D</button> -->
+                    <div id = "choices" class="choices" ></div>
                 <div id="result"></div>
         </div>
         <div id="gameover">
